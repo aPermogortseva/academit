@@ -12,7 +12,6 @@ public class Main {
         System.out.println("Начало левого диапазона = " + leftRange.getFrom());
         System.out.println("Конец левого диапазона = " + leftRange.getTo());
 
-
         double point = 4.5;
 
         System.out.println("Точка лежит в левом диапазоне: " + leftRange.isInside(point));
