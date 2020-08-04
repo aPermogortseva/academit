@@ -1,4 +1,4 @@
-package aPermShapes;
+package permogortseva.shapes;
 
 public class MaxAndMin {
     public static int max(int x1, int x2, int x3) {

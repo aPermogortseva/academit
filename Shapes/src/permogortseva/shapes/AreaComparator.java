@@ -1,4 +1,4 @@
-package aPermShapes;
+package permogortseva.shapes;
 
 import java.util.Comparator;
 

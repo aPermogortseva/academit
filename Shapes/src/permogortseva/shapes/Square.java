@@ -1,4 +1,4 @@
-package aPermShapes;
+package permogortseva.shapes;
 
 public class Square implements Shape {
     private double sideLength;

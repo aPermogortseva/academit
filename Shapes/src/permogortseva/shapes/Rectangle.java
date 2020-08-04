@@ -1,4 +1,4 @@
-package aPermShapes;
+package permogortseva.shapes;
 
 public class Rectangle implements Shape {
     private double width;

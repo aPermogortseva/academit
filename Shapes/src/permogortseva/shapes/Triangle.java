@@ -1,4 +1,4 @@
-package aPermShapes;
+package permogortseva.shapes;
 
 public class Triangle implements Shape {
     private int x1;
