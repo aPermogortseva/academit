@@ -1,4 +1,4 @@
-package aPermRange;
+package permogortseva.range;
 
 import java.util.Arrays;
 
@@ -7,7 +7,7 @@ public class Main {
         Range leftRange = new Range(3.7, 69);
 
         leftRange.setFrom(4.1);
-        leftRange.setTo(70);
+        leftRange.setTo(60);
 
         System.out.println("Начало левого диапазона = " + leftRange.getFrom());
         System.out.println("Конец левого диапазона = " + leftRange.getTo());
@@ -17,12 +17,12 @@ public class Main {
         System.out.println("Точка лежит в левом диапазоне: " + leftRange.isInside(point));
         System.out.println("Длина левого диапазона = " + leftRange.getLength());
 
-        Range rightRange = new Range(70, 80);
+        Range secondRange = new Range(60, 82.1);
 
-        System.out.println("Пересечение диапазонов: " + leftRange.getIntersection(rightRange));
+        System.out.println("Пересечение диапазонов: " + leftRange.getIntersection(secondRange));
 
-        System.out.println("Объединение множеств: " + Arrays.toString(leftRange.getUnionRange(rightRange)));
+        System.out.println("Объединение множеств: " + Arrays.toString(leftRange.getUnion(secondRange)));
 
-        System.out.println("Разность множеств: " + Arrays.toString(leftRange.getComplementRange(rightRange)));
+        System.out.println("Разность множеств: " + Arrays.toString(leftRange.getComplement(secondRange)));
     }
 }
