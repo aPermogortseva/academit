@@ -1,8 +1,8 @@
 package permogortseva.shapes;
 
 public class Rectangle implements Shape {
-    private double width;
-    private double height;
+    final private double width;
+    final private double height;
 
     public Rectangle(double width, double height) {
         this.width = width;
@@ -31,16 +31,16 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return "ширина = " + width + ", " + "высота = " + height;
+        return "Прямоугольник. Ширина = " + width + ", " + "Высота = " + height;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 33;
+        final int prime = 23;
         int hash = 1;
 
-        hash = prime * hash + (int) width;
-        hash = prime * hash + (int) height;
+        hash = prime * hash + Double.hashCode(width);
+        hash = prime * hash + Double.hashCode(height);
 
         return hash;
     }
@@ -51,7 +51,7 @@ public class Rectangle implements Shape {
             return true;
         }
 
-        if (o == null || o.getClass() != this.getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 

@@ -1,7 +1,7 @@
 package permogortseva.shapes;
 
 public class Square implements Shape {
-    private double sideLength;
+    final private double sideLength;
 
     public Square(double sideLength) {
         this.sideLength = sideLength;
@@ -29,15 +29,15 @@ public class Square implements Shape {
 
     @Override
     public String toString() {
-        return "сторона = " + sideLength;
+        return "Квадрат. Сторона квадрата = " + sideLength;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 33;
+        final int prime = 23;
         int hash = 1;
 
-        hash = prime * hash + (int) sideLength;
+        hash = prime * hash + Double.hashCode(sideLength);
 
         return hash;
     }
@@ -48,7 +48,7 @@ public class Square implements Shape {
             return true;
         }
 
-        if (o == null || o.getClass() != this.getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 
