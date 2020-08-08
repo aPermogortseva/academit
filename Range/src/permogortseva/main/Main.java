@@ -1,4 +1,6 @@
-package permogortseva.range;
+package permogortseva.main;
+
+import permogortseva.range.Range;
 
 import java.util.Arrays;
 

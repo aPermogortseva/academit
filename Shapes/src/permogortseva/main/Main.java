@@ -1,4 +1,6 @@
-package permogortseva.shapes;
+package permogortseva.main;
+
+import permogortseva.shapes.*;
 
 import java.util.Arrays;
 
