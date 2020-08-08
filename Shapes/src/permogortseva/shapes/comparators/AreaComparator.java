@@ -1,4 +1,6 @@
-package permogortseva.shapes;
+package permogortseva.shapes.comparators;
+
+import permogortseva.shapes.Shape;
 
 import java.util.Comparator;
 
