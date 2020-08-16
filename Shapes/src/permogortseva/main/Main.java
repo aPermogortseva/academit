@@ -1,6 +1,8 @@
 package permogortseva.main;
 
 import permogortseva.shapes.*;
+import permogortseva.shapes.comparators.AreaComparator;
+import permogortseva.shapes.comparators.PerimeterComparator;
 
 import java.util.Arrays;
 
