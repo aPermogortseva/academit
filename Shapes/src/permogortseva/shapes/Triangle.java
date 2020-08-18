@@ -17,20 +17,20 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private static double max(double coordinate1, double coordinate2, double coordinate3) {
-        if (coordinate2 > coordinate1) {
-            return coordinate2;
+    private static double getMax(double coordinate1, double coordinate2, double coordinate3) {
+        if (coordinate2 < coordinate1) {
+            return Math.max(coordinate3, coordinate1);
         }
 
-        return Math.max(coordinate3, coordinate1);
+        return Math.max(coordinate3, coordinate2);
     }
 
-    private static double min(double coordinate1, double coordinate2, double coordinate3) {
-        if (coordinate2 < coordinate1) {
-            return coordinate2;
+    private static double getMin(double coordinate1, double coordinate2, double coordinate3) {
+        if (coordinate2 > coordinate1) {
+            return Math.min(coordinate3, coordinate1);
         }
 
-        return Math.min(coordinate3, coordinate1);
+        return Math.min(coordinate2, coordinate3);
     }
 
     private static double getSideLength(double x1, double y1, double x2, double y2) {
@@ -39,12 +39,12 @@ public class Triangle implements Shape {
 
     @Override
     public double getWidth() {
-        return (max(x1, x2, x3) - min(x1, x2, x3));
+        return (getMax(x1, x2, x3) - getMin(x1, x2, x3));
     }
 
     @Override
     public double getHeight() {
-        return (max(y1, y2, y3) - min(y1, y2, y3));
+        return (getMax(y1, y2, y3) - getMin(y1, y2, y3));
     }
 
     @Override
