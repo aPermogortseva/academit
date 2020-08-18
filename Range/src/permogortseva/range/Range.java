@@ -34,31 +34,24 @@ public class Range {
     }
 
     public Range getIntersection(Range range) {
-        if (to > range.from && to < range.to) {
-            return new Range(range.from, to);
+
+        if (range.to <= from || to <= range.from) {
+            return null;
         }
 
-        if (range.from > from && range.to < to) {
-            return new Range(range.from, range.to);
+        if (range.from < to) {
+            return new Range(Math.max(range.from, from), Math.min(to, range.to));
         }
 
-        if (range.from < from && to < range.to) {
-            return new Range(from, to);
-        }
-
-        if (range.from < from && range.to < to && range.to > from) {
-            return new Range(from, range.to);
-        }
-
-        return null;
+        return new Range(Math.max(range.from, from), Math.min(range.to, to));
     }
 
     public Range[] getUnion(Range range) {
-        if ((from <= range.to && to >= range.from) || (range.from <= to && range.to >= from)) {
-            return new Range[]{new Range(Math.min(range.from, from), Math.max(to, range.to))};
+        if (range.to < from || range.from > to) {
+            return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
 
-        return new Range[]{new Range(from, to), new Range(range.from, range.to)};
+        return new Range[]{new Range(Math.min(range.from, from), Math.max(to, range.to))};
     }
 
     public Range[] getComplement(Range range) {
@@ -66,18 +59,19 @@ public class Range {
             return new Range[]{new Range(from, range.from), new Range(range.to, to)};
         }
 
-        if (to < range.to && to > range.from) {
+        if (from < range.from && range.to > to && range.from < to) {
             return new Range[]{new Range(from, range.from)};
         }
 
         if (to > range.to && from > range.from && range.to > from) {
             return new Range[]{new Range(range.to, to)};
         }
+
         return new Range[0];
     }
 
     @Override
     public String toString() {
-        return "(" + from + " , " + to + ")";
+        return "(" + from + ", " + to + ")";
     }
 }
