@@ -2,8 +2,6 @@ package permogortseva.main;
 
 import permogortseva.vector.Vector;
 
-import static permogortseva.vector.Vector.add;
-
 public class Main {
     public static void main(String[] args) {
         double[] array = {2, 4, 6};
@@ -19,7 +17,7 @@ public class Main {
         System.out.println("Второй вектор: " + vector2.toString());
 
         vector.add(vector2);
-        System.out.println("Первый вектор, прибавленный со вторым = " + vector.toString());
+        System.out.println("Первый вектор, сложенный со вторым = " + vector.toString());
 
         double[] array3 = {13, 5.6, 17, 0.7};
         Vector vector3 = new Vector(array3);
@@ -47,13 +45,13 @@ public class Main {
 
         System.out.println("Проверка на равенство третьего и четвертого векторов: " + vector3.equals(vector4));
 
-        System.out.println("Сумма третьего и четвертого вектров: " + Vector.add(vector3, vector4));
+        System.out.println("Сумма третьего и четвертого вектров: " + Vector.getSum(vector3, vector4));
 
-        System.out.println("Разность третьего и четвертого вектров: " + Vector.subtract(vector3, vector4));
+        System.out.println("Разность третьего и четвертого вектров: " + Vector.getDifference(vector3, vector4));
 
         double[] array5 = {2.5, 4, 3, 5, 8};
         Vector vector5 = new Vector(array5);
 
-        System.out.println("Скалярное произведение четвертого и пятого векторов: " + Vector.multiplyVectors(vector4, vector5));
+        System.out.println("Скалярное произведение четвертого и пятого векторов: " + Vector.getScalarProduct(vector4, vector5));
     }
 }
