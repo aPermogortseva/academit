@@ -19,7 +19,7 @@ public class Main {
         System.out.println("Точка лежит в левом диапазоне: " + leftRange.isInside(point));
         System.out.println("Длина левого диапазона = " + leftRange.getLength());
 
-        Range secondRange = new Range(73, 89);
+        Range secondRange = new Range(41, 90);
 
         System.out.println("Пересечение диапазонов: " + leftRange.getIntersection(secondRange));
 
