@@ -1,4 +1,4 @@
-package permogortseva.main;
+package permogortseva.vector_main;
 
 import permogortseva.vector.Vector;
 
@@ -51,6 +51,8 @@ public class Main {
 
         double[] array5 = {2.5, 4, 3, 5, 8};
         Vector vector5 = new Vector(array5);
+
+        System.out.println("Длина пятого вектора: " + vector5.getLength());
 
         System.out.println("Скалярное произведение четвертого и пятого векторов: " + Vector.getScalarProduct(vector4, vector5));
     }

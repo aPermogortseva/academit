@@ -1,4 +1,4 @@
-package permogortseva.main;
+package permogortseva.shapes_main;
 
 import permogortseva.shapes.*;
 import permogortseva.shapes.comparators.AreaComparator;
