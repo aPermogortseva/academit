@@ -54,15 +54,15 @@ public class Range {
             return new Range[]{new Range(from, range.from), new Range(range.to, to)};
         }
 
-        if ((range.from == from && to <= range.to) || (from >= range.from && to == range.to)) {
-            return new Range[0];
+        if (range.to <= from || range.from >= to) {
+            return new Range[]{new Range(from, to)};
         }
 
-        if (from <= range.from && range.from <= to) {
+        if (range.from > from && range.from < to) {
             return new Range[]{new Range(from, range.from)};
         }
 
-        if (range.to <= to && range.from <= from) {
+        if (range.to < to && range.to > from) {
             return new Range[]{new Range(range.to, to)};
         }
 
