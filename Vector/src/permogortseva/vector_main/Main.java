@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         double[] array = {2, 4, 6};
 
-        Vector vector = new Vector(array);
+        Vector vector = new Vector(7, array);
         System.out.println("Вектор: " + vector.toString());
 
         System.out.println("Размер вектора = " + vector.getSize());

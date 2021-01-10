@@ -14,9 +14,7 @@ public class Vector {
     }
 
     public Vector(Vector vector) {
-        components = new double[vector.components.length];
-
-        System.arraycopy(vector.components, 0, components, 0, components.length);
+        components = Arrays.copyOf(vector.components, vector.components.length);
     }
 
     public Vector(double[] array) {
@@ -24,9 +22,7 @@ public class Vector {
             throw new IllegalArgumentException("Неверный размер массива = " + array.length + ". Размер не может быть = 0");
         }
 
-        components = new double[array.length];
-
-        System.arraycopy(array, 0, components, 0, components.length);
+        components = Arrays.copyOf(array, array.length);
     }
 
     public Vector(int size, double[] array) {
@@ -34,9 +30,9 @@ public class Vector {
             throw new IllegalArgumentException("Неверный размер = " + size + ". Размер не может быть меньше 1");
         }
 
-        components = new double[array.length];
+        components = new double[size];
 
-        components = Arrays.copyOf(array, Math.max(size, array.length));
+        System.arraycopy(array, 0, components, 0, Math.min(size, array.length));
     }
 
     public int getSize() {
@@ -45,9 +41,7 @@ public class Vector {
 
     public void add(Vector vector) {
         if (components.length < vector.components.length) {
-            double[] temp = components;
-            components = new double[vector.components.length];
-            components = Arrays.copyOf(temp, components.length);
+            components = Arrays.copyOf(components, vector.components.length);
         }
 
         for (int i = 0; i < vector.components.length; i++) {
@@ -57,9 +51,7 @@ public class Vector {
 
     public void subtract(Vector vector) {
         if (components.length < vector.components.length) {
-            double[] temp = components;
-            components = new double[vector.components.length];
-            components = Arrays.copyOf(temp, components.length);
+            components = Arrays.copyOf(components, vector.components.length);
         }
 
         for (int i = 0; i < vector.components.length; i++) {
@@ -79,8 +71,8 @@ public class Vector {
 
     public double getElement(int index) {
         if (index >= components.length) {
-            throw new IndexOutOfBoundsException("Неверный индекс = " + index + "\n Индекс должен быть меньше размерности вектора" +
-                    "\n Размерность вектора = " + components.length);
+            throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс не должен быть больше размерности вектора. " +
+                    "Размерность вектора = " + components.length);
         }
 
         if (index < 0) {
@@ -92,8 +84,8 @@ public class Vector {
 
     public void setElement(int index, double value) {
         if (index >= components.length) {
-            throw new IndexOutOfBoundsException("Неверный индекс = " + index + "\n Индекс должен быть меньше размерности вектора" +
-                    "\n Размерность вектора = " + components.length);
+            throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс не должен быть больше размерности вектора. " +
+                    "Размерность вектора = " + components.length);
         }
 
         if (index < 0) {
@@ -104,13 +96,13 @@ public class Vector {
     }
 
     public double getLength() {
-        double squaresComponentsSum = 0;
+        double componentsSquaresSum = 0;
 
         for (double e : components) {
-            squaresComponentsSum += e * e;
+            componentsSquaresSum += e * e;
         }
 
-        return Math.sqrt(squaresComponentsSum);
+        return Math.sqrt(componentsSquaresSum);
     }
 
     @Override
@@ -151,6 +143,7 @@ public class Vector {
         }
 
         Vector vector = (Vector) o;
+
         return Arrays.equals(components, vector.components);
     }
 
