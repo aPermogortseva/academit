@@ -71,7 +71,7 @@ public class Vector {
 
     public double getElement(int index) {
         if (index >= components.length) {
-            throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс не должен быть больше размерности вектора. " +
+            throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс должен быть меньше размерности вектора. " +
                     "Размерность вектора = " + components.length);
         }
 
