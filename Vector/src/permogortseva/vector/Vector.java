@@ -30,9 +30,7 @@ public class Vector {
             throw new IllegalArgumentException("Неверный размер = " + size + ". Размер не может быть меньше 1");
         }
 
-        components = new double[size];
-
-        System.arraycopy(array, 0, components, 0, Math.min(size, array.length));
+        components = Arrays.copyOf(array, size);
     }
 
     public int getSize() {
@@ -76,7 +74,7 @@ public class Vector {
         }
 
         if (index < 0) {
-            throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс должен быть > 0");
+            throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс должен быть >= 0");
         }
 
         return components[index];
@@ -89,7 +87,7 @@ public class Vector {
         }
 
         if (index < 0) {
-            throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс должен быть > 0");
+            throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс должен быть >= 0");
         }
 
         components[index] = value;

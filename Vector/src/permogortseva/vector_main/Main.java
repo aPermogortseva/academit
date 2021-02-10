@@ -6,34 +6,34 @@ public class Main {
     public static void main(String[] args) {
         double[] array = {2, 4, 6};
 
-        Vector vector = new Vector(7, array);
-        System.out.println("Вектор: " + vector.toString());
+        Vector vector = new Vector(2, array);
+        System.out.println("Вектор: " + vector);
 
         System.out.println("Размер вектора = " + vector.getSize());
 
         double[] array2 = {3, 6, 7, 9, 8, 5};
         Vector vector2 = new Vector(array2);
 
-        System.out.println("Второй вектор: " + vector2.toString());
+        System.out.println("Второй вектор: " + vector2);
 
         vector.add(vector2);
-        System.out.println("Первый вектор, сложенный со вторым = " + vector.toString());
+        System.out.println("Первый вектор, сложенный со вторым = " + vector);
 
         double[] array3 = {13, 5.6, 17, 0.7};
         Vector vector3 = new Vector(array3);
 
-        System.out.println("Третий вектор: " + vector3.toString());
+        System.out.println("Третий вектор: " + vector3);
 
         vector2.subtract(vector3);
-        System.out.println("Второй вектор минус третий вектор: " + vector2.toString());
+        System.out.println("Второй вектор минус третий вектор: " + vector2);
 
         double scalar = 2.5;
 
         vector3.multiply(scalar);
-        System.out.println("Третий вектор, помноженый на скаляр " + scalar + ": " + vector3.toString());
+        System.out.println("Третий вектор, помноженый на скаляр " + scalar + ": " + vector3);
 
         vector3.reverse();
-        System.out.println("Развёрнутый третий вектор: " + vector3.toString());
+        System.out.println("Развёрнутый третий вектор: " + vector3);
 
         vector3.setElement(2, 6);
 
