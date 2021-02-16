@@ -51,12 +51,28 @@ public class Main {
 
         System.out.println("Третья матрица, помноженная на скаляр = 3: " + matrix3.multiply(3));
 
-        double[][] array5 = {{9, 8, 7, 6}, {5, 4, 3, 2}, {1, 0, 1, 2}, {3, 4, 5, 6}};
-        Matrix matrix5 = new Matrix(array5);
-        //System.out.println(matrix5.getDeterminant());
-
         double[][] array6 = {{2, 3, 6}, {4, 7, 5}, {8, 9, 1}};
         Matrix matrix6 = new Matrix(array6);
-        System.out.println(matrix6.getDeterminant());
+        System.out.println("Определитель матрицы = " + matrix6.getDeterminant());
+
+        double[] array5 = {2.5, 4, 3};
+        Vector vector5 = new Vector(array5);
+
+        System.out.println("Произведение пятого вектора и шестой матрицы: " + matrix6.multiply(vector5));
+
+        double[][] array7 = {{8, 34, 12}, {2, 67, 4}, {1, 5, 9}};
+        Matrix matrix7 = new Matrix(array7);
+
+        System.out.println("Произведение шестой и седьмой матриц: " + Matrix.multiply(matrix6, matrix7));
+
+        matrix6.getSum(matrix7);
+        System.out.println("Шестая матрица, сложенная с седьмой: " + matrix6);
+
+        matrix7.subtract(matrix6);
+        System.out.println("Седьмая матрица, сложенная с шестой: " + matrix7);
+
+        System.out.println("Сумма шестой и седьмой матриц: " + Matrix.getSum(matrix6, matrix7));
+
+        System.out.println("Вычитание шестой и седьмой матриц: " + Matrix.subtract(matrix6, matrix7));
     }
 }

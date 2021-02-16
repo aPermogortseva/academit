@@ -16,12 +16,10 @@ public class Matrix {
             throw new IllegalArgumentException("Неверный размер = " + m + ". Размер не может быть меньше 1");
         }
 
-        Vector vector = new Vector(m);
-
         rowsArray = new Vector[n];
 
         for (int i = 0; i < n; i++) {
-            rowsArray[i] = vector;
+            rowsArray[i] = new Vector(m);
         }
     }
 
@@ -166,7 +164,7 @@ public class Matrix {
             for (int j = 0; j < minor.rowsArray.length; j++) {
                 int index = 0;
 
-                for (int k = 0; k < minor.rowsArray.length; k++) {
+                for (int k = 0; k < rowsArray.length; k++) {
                     if (k != i) {
                         minor.rowsArray[j].setElement(index, this.rowsArray[j + 1].getElement(k));
                         index++;
@@ -177,11 +175,102 @@ public class Matrix {
             determinant += Math.pow(-1, i + 2) * this.rowsArray[0].getElement(i) * minor.getDeterminant();
         }
 
-        return minor.getDeterminant();
+        return determinant;
     }
 
     public Vector multiply(Vector vector) {
-        return null;
+        if (vector.getSize() != rowsArray.length) {
+            throw new IllegalArgumentException("Длина вектора должна быть равна количеству строк матрицы. Длина вектора = " +
+                    vector.getSize() + ". Количество строк в матрице = " + rowsArray.length);
+        }
+
+        Vector resultVector = new Vector(rowsArray[0].getSize());
+
+        for (int i = 0; i < resultVector.getSize(); i++) {
+            double elementsSum = 0;
+
+            for (int j = 0; j < rowsArray.length; j++) {
+                elementsSum += vector.getElement(j) * rowsArray[j].getElement(i);
+            }
+
+            resultVector.setElement(i, elementsSum);
+        }
+
+        return resultVector;
+    }
+
+    public void getSum(Matrix matrix) {
+        if (this.getSize()[0] != matrix.getSize()[0] || this.getSize()[1] != matrix.getSize()[1]) {
+            throw new IllegalArgumentException("Для сложения матриц их размеры должны быть равны. Размеры первой матрицы: " + Arrays.toString(this.getSize()) +
+                    ". Размеры второй матрицы: " + Arrays.toString(matrix.getSize()));
+        }
+
+        for (int i = 0; i < rowsArray.length; i++) {
+            for (int j = 0; j < rowsArray.length; j++) {
+                rowsArray[i].setElement(j, rowsArray[i].getElement(j) + matrix.rowsArray[i].getElement(j));
+            }
+        }
+    }
+
+    public void subtract(Matrix matrix) {
+        if (this.getSize()[0] != matrix.getSize()[0] || this.getSize()[1] != matrix.getSize()[1]) {
+            throw new IllegalArgumentException("Для вычитания матриц их размеры должны быть равны. Размеры первой матрицы: " + Arrays.toString(this.getSize()) +
+                    ". Размеры второй матрицы: " + Arrays.toString(matrix.getSize()));
+        }
+
+        for (int i = 0; i < rowsArray.length; i++) {
+            for (int j = 0; j < rowsArray.length; j++) {
+                rowsArray[i].setElement(j, rowsArray[i].getElement(j) - matrix.rowsArray[i].getElement(j));
+            }
+        }
+    }
+
+    public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.getSize()[0] != matrix2.getSize()[0] || matrix1.getSize()[1] != matrix2.getSize()[1]) {
+            throw new IllegalArgumentException("Для сложения матриц их размеры должны быть равны. Размеры первой матрицы: " + Arrays.toString(matrix1.getSize()) +
+                    ". Размеры второй матрицы: " + Arrays.toString(matrix2.getSize()));
+        }
+
+        Matrix newMatrix = new Matrix(matrix1);
+        newMatrix.getSum(matrix2);
+
+        return newMatrix;
+    }
+
+    public static Matrix subtract(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.getSize()[0] != matrix2.getSize()[0] || matrix1.getSize()[1] != matrix2.getSize()[1]) {
+            throw new IllegalArgumentException("Для вычитания матриц их размеры должны быть равны. Размеры первой матрицы: " + Arrays.toString(matrix1.getSize()) +
+                    ". Размеры второй матрицы: " + Arrays.toString(matrix2.getSize()));
+        }
+
+        Matrix newMatrix = new Matrix(matrix1);
+        newMatrix.subtract(matrix2);
+
+        return newMatrix;
+    }
+
+    public static Matrix multiply(Matrix matrix1, Matrix matrix2) {
+        if (matrix1.getSize()[1] != matrix2.getSize()[0]) {
+            throw new IllegalArgumentException("Для умножения матриц количество столбцов первой матрицы, должно быть равно количеству строк второй." +
+                    " Количество столбцов первой матрицы: " + (matrix1.getSize()[1]) +
+                    ". Количество строк второй матрицы: " + matrix2.getSize()[0]);
+        }
+
+        Matrix newMatrix = new Matrix(matrix1.getSize()[0], matrix2.getSize()[1]);
+
+        for (int i = 0; i < newMatrix.rowsArray[0].getSize(); i++) {
+            for (int l = 0; l < newMatrix.rowsArray[0].getSize(); l++) {
+                double elementsSum = 0;
+
+                for (int m = 0; m < newMatrix.rowsArray[0].getSize(); m++) {
+                    elementsSum += matrix1.rowsArray[l].getElement(m) * matrix2.rowsArray[m].getElement(i);
+                }
+
+                newMatrix.rowsArray[l].setElement(i, elementsSum);
+            }
+        }
+
+        return newMatrix;
     }
 
     @Override
@@ -199,5 +288,4 @@ public class Matrix {
 
         return sb.append('}').toString();
     }
-
 }
