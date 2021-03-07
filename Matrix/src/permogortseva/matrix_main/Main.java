@@ -9,7 +9,9 @@ public class Main {
     public static void main(String[] args) {
         Matrix matrix = new Matrix(3, 4);
         System.out.println("Первая матрица: " + matrix);
-        System.out.println("Размеры первой матрицы: " + Arrays.toString(matrix.getSize()));
+
+        System.out.println("Количество строк первой матрицы: " + matrix.getRowsNumber());
+        System.out.println("Количество столбцов первой матрицы: " + matrix.getColumnsNumber());
 
         double[] array = {3, 6, 7, 9, 8, 5};
         Vector vector = new Vector(array);
@@ -27,6 +29,7 @@ public class Main {
 
         Matrix matrix2 = new Matrix(arraysVector);
         System.out.println("Вторая матрица: " + matrix2);
+        System.out.println(Arrays.toString(arraysVector));
 
         double[][] array4 = {{2, 4.5, 7}, {1.2, 3.4, 78, 5.3}, {3, 5}, {0, 8.7, 4}};
         Matrix matrix3 = new Matrix(array4);
@@ -47,7 +50,8 @@ public class Main {
         Vector column = matrix4.getColumn(0);
         System.out.println("Вектор-столбец четвертой матрицы: " + column);
 
-        System.out.println("Транспонированная вторая матрица: " + matrix2.transpose());
+        matrix2.transpose();
+        System.out.println("Транспонированная вторая матрица: " + matrix2);
 
         System.out.println("Третья матрица, помноженная на скаляр = 3: " + matrix3.multiply(3));
 
@@ -65,13 +69,13 @@ public class Main {
 
         System.out.println("Произведение шестой и седьмой матриц: " + Matrix.multiply(matrix6, matrix7));
 
-        matrix6.getSum(matrix7);
+        matrix6.sum(matrix7);
         System.out.println("Шестая матрица, сложенная с седьмой: " + matrix6);
 
         matrix7.subtract(matrix6);
         System.out.println("Седьмая матрица, сложенная с шестой: " + matrix7);
 
-        System.out.println("Сумма шестой и седьмой матриц: " + Matrix.getSum(matrix6, matrix7));
+        System.out.println("Сумма шестой и седьмой матриц: " + Matrix.sum(matrix6, matrix7));
 
         System.out.println("Вычитание шестой и седьмой матриц: " + Matrix.subtract(matrix6, matrix7));
     }
