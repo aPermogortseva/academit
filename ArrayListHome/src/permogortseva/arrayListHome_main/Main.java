@@ -7,13 +7,13 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    public static ArrayList<Integer> writeFileToList(String fileName) throws FileNotFoundException {
+    public static ArrayList<String> writeFileToList(String fileName) throws FileNotFoundException {
         Scanner scanner = new Scanner(new FileInputStream(fileName));
 
-        ArrayList<Integer> list = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
 
         while (scanner.hasNext()) {
-            list.add(scanner.nextInt());
+            list.add(scanner.nextLine());
         }
 
         return list;
@@ -40,9 +40,9 @@ public class Main {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        ArrayList<Integer> list1;
+        ArrayList<String> list1;
         list1 = writeFileToList("arrayListHomeInput.txt");
-        System.out.println("Прочитанный файл: " + list1);
+        System.out.println("Список строк из файла : " + list1);
 
         ArrayList<Integer> list2 = new ArrayList<>(Arrays.asList(2, 3, -10, 4, 5, 6, 7));
         removeOddNumbers(list2);
