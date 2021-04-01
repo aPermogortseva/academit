@@ -3,18 +3,16 @@ package permogortseva.matrix_main;
 import permogortseva.matrix.Matrix;
 import permogortseva.vector.Vector;
 
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) {
         Matrix matrix = new Matrix(3, 4);
         System.out.println("Первая матрица: " + matrix);
 
-        System.out.println("Количество строк первой матрицы: " + matrix.getRowsNumber());
-        System.out.println("Количество столбцов первой матрицы: " + matrix.getColumnsNumber());
+        System.out.println("Количество строк первой матрицы: " + matrix.getRowsCount());
+        System.out.println("Количество столбцов первой матрицы: " + matrix.getColumnsCount());
 
-        double[] array = {3, 6, 7, 9, 8, 5};
-        Vector vector = new Vector(array);
+        double[] array1 = {3, 6, 7, 9, 8, 5};
+        Vector vector1 = new Vector(array1);
 
         double[] array2 = {2.4, 8, 5, 7.2};
         Vector vector2 = new Vector(array2);
@@ -23,13 +21,12 @@ public class Main {
         Vector vector3 = new Vector(array3);
 
         Vector[] arraysVector = new Vector[3];
-        arraysVector[0] = vector;
+        arraysVector[0] = vector1;
         arraysVector[1] = vector2;
         arraysVector[2] = vector3;
 
         Matrix matrix2 = new Matrix(arraysVector);
         System.out.println("Вторая матрица: " + matrix2);
-        System.out.println(Arrays.toString(arraysVector));
 
         double[][] array4 = {{2, 4.5, 7}, {1.2, 3.4, 78, 5.3}, {3, 5}, {0, 8.7, 4}};
         Matrix matrix3 = new Matrix(array4);
@@ -67,16 +64,16 @@ public class Main {
         double[][] array7 = {{8, 34, 12}, {2, 67, 4}, {1, 5, 9}};
         Matrix matrix7 = new Matrix(array7);
 
-        System.out.println("Произведение шестой и седьмой матриц: " + Matrix.multiply(matrix6, matrix7));
+        System.out.println("Произведение шестой и седьмой матриц: " + Matrix.getMultiply(matrix6, matrix7));
 
-        matrix6.sum(matrix7);
+        matrix6.add(matrix7);
         System.out.println("Шестая матрица, сложенная с седьмой: " + matrix6);
 
         matrix7.subtract(matrix6);
         System.out.println("Седьмая матрица, сложенная с шестой: " + matrix7);
 
-        System.out.println("Сумма шестой и седьмой матриц: " + Matrix.sum(matrix6, matrix7));
+        System.out.println("Сумма шестой и седьмой матриц: " + Matrix.getSum(matrix6, matrix7));
 
-        System.out.println("Вычитание шестой и седьмой матриц: " + Matrix.subtract(matrix6, matrix7));
+        System.out.println("Вычитание шестой и седьмой матриц: " + Matrix.getSubtract(matrix6, matrix7));
     }
 }
