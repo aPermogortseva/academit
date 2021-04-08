@@ -7,15 +7,15 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    public static ArrayList<String> getFileStringsList(String fileName){
+    public static ArrayList<String> getFileStringsList(String fileName) {
         ArrayList<String> list = new ArrayList<>();
 
-        try(Scanner scanner = new Scanner(new FileInputStream(fileName));) {
+        try (Scanner scanner = new Scanner(new FileInputStream(fileName));) {
             while (scanner.hasNextLine()) {
                 list.add(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Не найден файл: " + fileName);
         }
 
         return list;
@@ -29,7 +29,7 @@ public class Main {
         }
     }
 
-    public static <E> ArrayList<E> makeUnique(ArrayList<E> list) {
+    public static <E> ArrayList<E> getUniqueValuesList(ArrayList<E> list) {
         ArrayList<E> resultList = new ArrayList<>(list.size());
 
         for (E e : list) {
@@ -42,14 +42,14 @@ public class Main {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        ArrayList<String>  stringsList = getFileStringsList("arrayListHomeInput.txt");
-        System.out.println("Список строк из файла : " + stringsList);
+        ArrayList<String> strings = getFileStringsList("arrayListHomeInput.txt");
+        System.out.println("Список строк из файла : " + strings);
 
-        ArrayList<Integer> integers1 = new ArrayList<>(Arrays.asList(2, 3, -10, 4, 5, 6, 7));
-        removeEvenNumbers(integers1);
-        System.out.println("Второй список с удалёнными чётными числами: " + integers1);
+        ArrayList<Integer> integers = new ArrayList<>(Arrays.asList(2, 3, -10, 4, 5, 6, 7));
+        removeEvenNumbers(integers);
+        System.out.println("Второй список с удалёнными чётными числами: " + integers);
 
-        ArrayList<Integer> integers2 = new ArrayList<>(Arrays.asList(2, 3, 4, 4, 3, 6, 7));
-        System.out.println("Третий список без повторов: " + makeUnique(integers2));
+        ArrayList<Integer> integersWithRepeats = new ArrayList<>(Arrays.asList(2, 3, 4, 4, 3, 6, 7));
+        System.out.println("Третий список без повторов: " + getUniqueValuesList(integersWithRepeats));
     }
 }
