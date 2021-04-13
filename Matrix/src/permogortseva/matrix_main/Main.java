@@ -64,7 +64,7 @@ public class Main {
         double[][] array7 = {{8, 34, 12}, {2, 67, 4}, {1, 5, 9}};
         Matrix matrix7 = new Matrix(array7);
 
-        System.out.println("Произведение шестой и седьмой матриц: " + Matrix.getMultiply(matrix6, matrix7));
+        System.out.println("Произведение шестой и седьмой матриц: " + Matrix.getProduct(matrix6, matrix7));
 
         matrix6.add(matrix7);
         System.out.println("Шестая матрица, сложенная с седьмой: " + matrix6);
@@ -74,6 +74,6 @@ public class Main {
 
         System.out.println("Сумма шестой и седьмой матриц: " + Matrix.getSum(matrix6, matrix7));
 
-        System.out.println("Вычитание шестой и седьмой матриц: " + Matrix.getSubtract(matrix6, matrix7));
+        System.out.println("Вычитание шестой и седьмой матриц: " + Matrix.getDifference(matrix6, matrix7));
     }
 }
