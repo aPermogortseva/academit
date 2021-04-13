@@ -140,19 +140,13 @@ public class Matrix {
     }
 
     public void transpose() {
-        if (getColumnsCount() == getRowsCount()) {
-            for (int i = 0; i < getColumnsCount(); i++) {
-                rows[i] = getColumn(i);
-            }
-        } else {
-            Matrix transposedMatrix = new Matrix(getColumnsCount(), getRowsCount());
+        Matrix transposedMatrix = new Matrix(getColumnsCount(), getRowsCount());
 
-            for (int i = 0; i < getColumnsCount(); i++) {
-                transposedMatrix.rows[i] = getColumn(i);
-            }
-
-            rows = transposedMatrix.rows;
+        for (int i = 0; i < getColumnsCount(); i++) {
+            transposedMatrix.rows[i] = getColumn(i);
         }
+
+        rows = transposedMatrix.rows;
     }
 
     public Matrix multiply(double scalar) {
