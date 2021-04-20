@@ -1,6 +1,6 @@
 package permogortseva.list;
 
-public class ListItem<T> {
+class ListItem<T> {
     private T data;
     private ListItem<T> next;
 
@@ -27,9 +27,5 @@ public class ListItem<T> {
 
     public void setNext(ListItem<T> next) {
         this.next = next;
-    }
-
-    public boolean hasNext() {
-        return next != null;
     }
 }

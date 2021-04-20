@@ -6,32 +6,34 @@ public class Main {
     public static void main(String[] args) {
         SinglyLinkedList<Integer> integers = new SinglyLinkedList<>();
 
-        integers.addFirst(6);
+        integers.addFirst(4);
         integers.addFirst(3);
         integers.addFirst(2);
-        integers.addFirst(4);
         integers.addFirst(9);
+        integers.addFirst(5);
+        integers.addFirst(7);
 
-        System.out.println("Размер списка: " + integers.getSize());
+        System.out.println("Размер списка: " + integers.getCount());
 
         System.out.println("Первый элемент списка: " + integers.getFirst());
-        System.out.println("Удалённый первый элемент: " + integers.deleteFirst());
+        System.out.println("Удалённый первый элемент: " + integers.removeFirst());
         System.out.println("Односвязный список: " + integers);
 
-        int index = 2;
-        System.out.println("Элемент по индексу " + index + ": " + integers.getItem(index));
+        int index = 3;
+        System.out.println("Элемент по индексу " + index + ": " + integers.get(index));
 
-        System.out.println("Старое занчение по индексу " + index + ": " + integers.changeItem(index, 5));
+        System.out.println("Старое занчение по индексу " + index + ": " + integers.set(index, 5));
         System.out.println("Односвязный список: " + integers);
 
-        System.out.println("Удалённый элемент: " + integers.deleteItem(2));
+        System.out.println("Удалённый элемент: " + integers.removeIndex(3));
+
         System.out.println("Односвязный список: " + integers);
 
-        System.out.println("Заданный элемент удален из списка: " + integers.remove(4));
+        System.out.println("Заданный элемент удален из списка: " + integers.removeData(4));
         System.out.println("Односвязный список: " + integers);
 
-        integers.add(4, 0);
-        integers.add(6, 2);
+        integers.add(0, 4);
+        integers.add(3, 6);
         System.out.println("Односвязный список: " + integers);
 
         integers.reverse();

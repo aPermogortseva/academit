@@ -1,5 +1,7 @@
 package permogortseva.list;
 
+import java.util.NoSuchElementException;
+
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
@@ -7,28 +9,31 @@ public class SinglyLinkedList<T> {
     public SinglyLinkedList() {
     }
 
-    public int getSize() {
+    public int getCount() {
         return count;
     }
 
     public T getFirst() {
-        ListItem<T> current = head;
-        return current.getData();
-    }
-
-    public T getItem(int index) {
         if (head == null) {
-            throw new NullPointerException("Неверный индекс: " + index + ". Список пустой");
+            throw new NoSuchElementException("Невозможно получить первый элемент, так как список пустой");
         }
 
+        return head.getData();
+    }
+
+    private void checkIndex(int index) {
         if (index < 0) {
             throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс должен быть >= 0");
         }
 
         if (index >= count) {
-            throw new IndexOutOfBoundsException("Индекс должен быть меньше размера списка. " +
+            throw new IndexOutOfBoundsException("Индекс должен быть <= размера списка. " +
                     "Индекс = " + index + ". Размер списка = " + count);
         }
+    }
+
+    public T get(int index) {
+        checkIndex(index);
 
         ListItem<T> current = head;
 
@@ -41,46 +46,29 @@ public class SinglyLinkedList<T> {
         return current.getData();
     }
 
-    public T changeItem(int index, T newData) {
-        if (head == null) {
-            throw new NullPointerException("Неверный индекс: " + index + ". Список пустой");
-        }
-
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс должен быть >= 0");
-        }
-
-        if (index >= count) {
-            throw new IndexOutOfBoundsException("Индекс должен быть меньше размера списка. " +
-                    "Индекс = " + index + ". Размер списка = " + count);
-        }
-
+    private ListItem<T> getNode(int index) {
         ListItem<T> current = head;
 
-        for (int i = 0; i <= index; i++) {
+        for (int i = 0; i < index; i++) {
             current = current.getNext();
         }
 
-        T temp = current.getData();
-
-        current.setData(newData);
-
-        return temp;
+        return current;
     }
 
-    public T deleteItem(int index) {
-        if (head == null) {
-            throw new NullPointerException("Неверный индекс: " + index + ". Список пустой");
-        }
+    public T set(int index, T data) {
+        checkIndex(index);
 
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс должен быть >= 0");
-        }
+        ListItem<T> current = getNode(index);
 
-        if (index >= count) {
-            throw new IndexOutOfBoundsException("Индекс должен быть меньше размера списка. " +
-                    "Индекс = " + index + ". Размер списка = " + count);
-        }
+        T previousData = current.getData();
+        current.setData(data);
+
+        return previousData;
+    }
+
+    public T removeIndex(int index) {
+        checkIndex(index);
 
         if (index == 0) {
             T data = head.getData();
@@ -91,23 +79,7 @@ public class SinglyLinkedList<T> {
             return data;
         }
 
-        ListItem<T> current = head;
-
-        if (index == count - 1) {
-            for (int i = 0; i < index - 1; i++) {
-                current = current.getNext();
-            }
-
-            current.setNext(null);
-
-            count--;
-
-            return current.getNext().getData();
-        }
-
-        for (int i = 0; i < index - 1; i++) {
-            current = current.getNext();
-        }
+        ListItem<T> current = getNode(index - 1);
 
         T deletedItemData = current.getNext().getData();
 
@@ -124,79 +96,89 @@ public class SinglyLinkedList<T> {
         count++;
     }
 
-    public void add(T data, int index) {
-        if (head == null) {
-            throw new NullPointerException("Неверный индекс: " + index + ". Список пустой");
-        }
-
+    public void add(int index, T data) {
         if (index < 0) {
             throw new IndexOutOfBoundsException("Неверный индекс = " + index + ". Индекс должен быть >= 0");
         }
 
         if (index > count) {
-            throw new IndexOutOfBoundsException("Индекс должен быть не больше размера списка. " +
+            throw new IndexOutOfBoundsException("Индекс должен быть < размера списка. " +
                     "Индекс = " + index + ". Размер списка = " + count);
         }
 
-        ListItem<T> current = head;
+        if (index == 0) {
+            addFirst(data);
+        } else {
+            ListItem<T> previous = getNode(index - 1);
+            previous.setNext(new ListItem<>(data, previous.getNext()));
 
-        for (int i = 0; i < index - 1; i++) {
-            current = current.getNext();
+            count++;
         }
-
-        ListItem<T> newItem = new ListItem<>(data, current.getNext());
-        current.setNext(newItem);
-
-        count++;
     }
 
-    public boolean remove(T data) {
-        boolean isDeleted = false;
+    public boolean removeData(T data) {
+        if (head.getData().equals(data)) {
+            removeFirst();
 
-        if (head.getData() == data) {
-            deleteFirst();
-
-            isDeleted = true;
+            return true;
         }
 
-        for (ListItem<T> current = head, previous = null; current != null; previous = current, current = current.getNext()) {
-            if (current.getData() == data && previous != null) {
+        boolean isDeleted = false;
+
+        for (ListItem<T> current = head.getNext(), previous = head; current != null; previous = current, current = current.getNext()) {
+            if (current.getData().equals(data)) {
                 previous.setNext(current.getNext());
 
                 isDeleted = true;
-
                 count--;
+
+                break;
             }
         }
 
         return isDeleted;
     }
 
-    public T deleteFirst() {
-        T temp = head.getData();
+    public T removeFirst() {
+        if (head == null) {
+            throw new NoSuchElementException("Удаление первого элемента невозможно. Список пустой");
+        }
+
+        T deletedData = head.getData();
         head = head.getNext();
 
         count--;
 
-        return temp;
+        return deletedData;
     }
 
     public void reverse() {
-        for (int end = count; end > 0; end--) {
-            add(head.getData(), end);
-            deleteFirst();
+        ListItem<T> previous = null;
+        ListItem<T> current = head;
+        ListItem<T> next = current.getNext();
+
+        while (next != null) {
+            current.setNext(previous);
+            previous = current;
+            current = next;
+
+            next = current.getNext();
         }
+
+        current.setNext(previous);
+
+        head = current;
     }
 
     public SinglyLinkedList<T> copy() {
         SinglyLinkedList<T> newList = new SinglyLinkedList<>();
 
         newList.addFirst(head.getData());
+        ListItem<T> copiedCurrent = newList.head;
 
-        ListItem<T> current = head;
-
-        for (int i = 1; i < count; i++, current = current.getNext()) {
-            newList.add(getItem(i), i);
+        for (ListItem<T> originalCurrent = head; originalCurrent != null; originalCurrent = originalCurrent.getNext()) {
+            copiedCurrent.setNext(originalCurrent.getNext());
+            copiedCurrent = copiedCurrent.getNext();
         }
 
         return newList;
