@@ -140,13 +140,13 @@ public class Matrix {
     }
 
     public void transpose() {
-        Matrix transposedMatrix = new Matrix(getColumnsCount(), getRowsCount());
+        Vector[] transposedRows = new Vector[getColumnsCount()];
 
         for (int i = 0; i < getColumnsCount(); i++) {
-            transposedMatrix.rows[i] = getColumn(i);
+            transposedRows[i] = getColumn(i);
         }
 
-        rows = transposedMatrix.rows;
+        rows = transposedRows;
     }
 
     public Matrix multiply(double scalar) {
@@ -202,7 +202,7 @@ public class Matrix {
         Vector resultVector = new Vector(getColumnsCount());
 
         for (int i = 0; i < resultVector.getSize(); i++) {
-            resultVector.setElement(i, Vector.getScalarProduct(vector, getColumn(i)));
+            resultVector.setElement(i, Vector.getScalarProduct(getRow(i), vector));
         }
 
         return resultVector;
@@ -261,7 +261,7 @@ public class Matrix {
 
         for (int i = 0; i < newMatrix.getColumnsCount(); i++) {
             for (int j = 0; j < newMatrix.getRowsCount(); j++) {
-                newMatrix.rows[j].setElement(i, Vector.getScalarProduct(matrix1.getRow(j), matrix2.getColumn(i)));
+                newMatrix.rows[j].setElement(i, Vector.getScalarProduct(matrix1.rows[j], matrix2.getColumn(i)));
             }
         }
 
