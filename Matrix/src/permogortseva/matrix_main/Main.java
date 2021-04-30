@@ -20,10 +20,7 @@ public class Main {
         double[] array3 = {3, 6, 7, 19};
         Vector vector3 = new Vector(array3);
 
-        Vector[] arraysVector = new Vector[3];
-        arraysVector[0] = vector1;
-        arraysVector[1] = vector2;
-        arraysVector[2] = vector3;
+        Vector[] arraysVector = {vector1, vector2, vector3};
 
         Matrix matrix2 = new Matrix(arraysVector);
         System.out.println("Вторая матрица: " + matrix2);
