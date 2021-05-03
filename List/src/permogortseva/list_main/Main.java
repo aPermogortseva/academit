@@ -22,14 +22,14 @@ public class Main {
         int index = 3;
         System.out.println("Элемент по индексу " + index + ": " + integers.get(index));
 
-        System.out.println("Старое занчение по индексу " + index + ": " + integers.set(index, 5));
+        System.out.println("Старое занчение по индексу " + index + ": " + integers.set(index, null));
         System.out.println("Односвязный список: " + integers);
 
-        System.out.println("Удалённый элемент: " + integers.removeIndex(3));
+        System.out.println("Удалённый элемент: " + integers.removeByIndex(2));
 
         System.out.println("Односвязный список: " + integers);
 
-        System.out.println("Заданный элемент удален из списка: " + integers.removeData(4));
+        System.out.println("Заданный элемент удален из списка: " + integers.removeByData(9));
         System.out.println("Односвязный список: " + integers);
 
         integers.add(0, 4);
