@@ -199,10 +199,10 @@ public class Matrix {
                     vector.getSize() + ". Количество столбцов в матрице = " + getColumnsCount());
         }
 
-        Vector resultVector = new Vector(getColumnsCount());
+        Vector resultVector = new Vector(getRowsCount());
 
         for (int i = 0; i < resultVector.getSize(); i++) {
-            resultVector.setElement(i, Vector.getScalarProduct(getRow(i), vector));
+            resultVector.setElement(i, Vector.getScalarProduct(rows[i], vector));
         }
 
         return resultVector;
@@ -259,9 +259,9 @@ public class Matrix {
 
         Matrix newMatrix = new Matrix(matrix1.getRowsCount(), matrix2.getColumnsCount());
 
-        for (int i = 0; i < newMatrix.getColumnsCount(); i++) {
-            for (int j = 0; j < newMatrix.getRowsCount(); j++) {
-                newMatrix.rows[j].setElement(i, Vector.getScalarProduct(matrix1.rows[j], matrix2.getColumn(i)));
+        for (int i = 0; i < newMatrix.getRowsCount(); i++) {
+            for (int j = 0; j < newMatrix.getColumnsCount(); j++) {
+                newMatrix.rows[i].setElement(j, Vector.getScalarProduct(matrix1.rows[i], matrix2.getColumn(j)));
             }
         }
 
