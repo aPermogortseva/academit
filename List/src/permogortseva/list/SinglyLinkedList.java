@@ -1,6 +1,7 @@
 package permogortseva.list;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
@@ -32,12 +33,6 @@ public class SinglyLinkedList<T> {
         }
     }
 
-    public T get(int index) {
-        checkIndex(index);
-
-        return getListItem(index).getData();
-    }
-
     private ListItem<T> getListItem(int index) {
         ListItem<T> current = head;
 
@@ -46,6 +41,12 @@ public class SinglyLinkedList<T> {
         }
 
         return current;
+    }
+
+    public T get(int index) {
+        checkIndex(index);
+
+        return getListItem(index).getData();
     }
 
     public T set(int index, T data) {
@@ -71,6 +72,43 @@ public class SinglyLinkedList<T> {
         T removedData = previous.getNext().getData();
 
         previous.setNext(previous.getNext().getNext());
+
+        count--;
+
+        return removedData;
+    }
+
+    public boolean removeByData(T data) {
+        if (count == 0) {
+            return false;
+        }
+
+        if (Objects.equals(head.getData(), data)) {
+            removeFirst();
+
+            return true;
+        }
+
+        for (ListItem<T> current = head.getNext(), previous = head; current != null; previous = current, current = current.getNext()) {
+            if (Objects.equals(data, current.getData())) {
+                previous.setNext(current.getNext());
+
+                count--;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public T removeFirst() {
+        if (head == null) {
+            throw new NoSuchElementException("Удаление первого элемента невозможно. Список пустой");
+        }
+
+        T removedData = head.getData();
+        head = head.getNext();
 
         count--;
 
@@ -103,39 +141,6 @@ public class SinglyLinkedList<T> {
         previous.setNext(new ListItem<>(data, previous.getNext()));
 
         count++;
-    }
-
-    public boolean removeByData(T data) {
-        if (head.getData().equals(data)) {
-            removeFirst();
-
-            return true;
-        }
-
-        for (ListItem<T> current = head.getNext(), previous = head; current != null; previous = current, current = current.getNext()) {
-            if (data.equals(current.getData())) {
-                previous.setNext(current.getNext());
-
-                count--;
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public T removeFirst() {
-        if (head == null) {
-            throw new NoSuchElementException("Удаление первого элемента невозможно. Список пустой");
-        }
-
-        T removedData = head.getData();
-        head = head.getNext();
-
-        count--;
-
-        return removedData;
     }
 
     public void reverse() {

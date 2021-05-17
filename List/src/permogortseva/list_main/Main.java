@@ -8,9 +8,9 @@ public class Main {
 
         integers.addFirst(4);
         integers.addFirst(3);
-        integers.addFirst(2);
+        integers.addFirst(null);
         integers.addFirst(9);
-        integers.addFirst(5);
+        integers.addFirst(null);
         integers.addFirst(7);
 
         System.out.println("Размер списка: " + integers.getCount());
@@ -29,7 +29,7 @@ public class Main {
 
         System.out.println("Односвязный список: " + integers);
 
-        System.out.println("Заданный элемент удален из списка: " + integers.removeByData(9));
+        System.out.println("Заданный элемент удален из списка: " + integers.removeByData(null));
         System.out.println("Односвязный список: " + integers);
 
         integers.add(0, 4);
