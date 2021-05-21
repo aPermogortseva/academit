@@ -6,15 +6,18 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Double> doubles1 = new ArrayList<>();
+        ArrayList<Double> doubles1 = new ArrayList<>(5);
 
         doubles1.add(2.0);
         doubles1.add(4.2);
-        doubles1.add(7.12);
+        doubles1.add(2.0);
+        doubles1.add(null);
         doubles1.add(6.0);
         doubles1.add(7.2);
 
-        System.out.println("Проверка, что элемент найден и удалён: " + doubles1.remove(7.2));
+        System.out.println("Индекс последнего вхождения элемента: " + doubles1.lastIndexOf(2.0));
+
+        System.out.println("Проверка, что элемент найден и удалён: " + doubles1.remove(2.0));
         System.out.println("Список после удаления: " + doubles1);
 
         ArrayList<Double>.ArrayLisIterator iterator = doubles1.new ArrayLisIterator();
@@ -36,14 +39,14 @@ public class Main {
         Integer[] array = new Integer[8];
 
         array = integers.toArray(array);
-        System.out.println(Arrays.toString(array));
+        System.out.println("Массив, полученный из списка: " + Arrays.toString(array));
 
-        doubles1.add(1, 8.0);
+        doubles1.add(3, 8.0);
         System.out.println(doubles1);
 
         ArrayList<Double> doubles2 = new ArrayList<>(Arrays.asList(2.1, 3.9, 6.0, 9.8));
 
-        doubles1.addAll(3, doubles2);
+        doubles1.addAll(4, doubles2);
         System.out.println("Список после прибавления к нему другого списка: " + doubles1);
 
         System.out.println("Индекс, по которому расположен 6.0: " + doubles1.indexOf(6.0));
@@ -51,7 +54,7 @@ public class Main {
         doubles1.clear();
         System.out.println("Очищенный список вещественных чисел: " + doubles1);
 
-        ArrayList<Double> doubles3 = new ArrayList<>(Arrays.asList(2.1, 6.0, 7.2));
+        ArrayList<Double> doubles3 = new ArrayList<>(Arrays.asList(2.1, 6.0, 8.4));
 
         doubles3.retainAll(doubles2);
         System.out.println("Третий список, состоящий только из элементов, присутствующих во втором списке: " + doubles3);
@@ -65,5 +68,8 @@ public class Main {
 
         doubles4.removeAll(doubles3);
         System.out.println("Четвертый список после удаления из него всех элементов из третьего списка: " + doubles4);
+
+        Double[] doublesArray = doubles4.toArray(new Double[6]);
+        System.out.println("Массив, полученный из списка: " + Arrays.toString(doublesArray));
     }
 }
