@@ -132,7 +132,7 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
-        remove(indexOf(object));
+        remove(indexToRemove);
 
         return true;
     }
