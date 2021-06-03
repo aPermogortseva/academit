@@ -2,8 +2,6 @@ package permogortseva.part2;
 
 import java.util.Scanner;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
