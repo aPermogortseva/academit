@@ -6,6 +6,10 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
+        Integer[] array1 = {1, 7, 9};
+        ArrayList<Integer> integers1 = new ArrayList<>(array1);
+        System.out.println(integers1);
+
         ArrayList<Double> doubles1 = new ArrayList<>(5);
 
         doubles1.add(2.0);
@@ -29,17 +33,17 @@ public class Main {
         System.out.println("Удалённый элемент: " + doubles1.remove(1));
         System.out.println("Список после удаления элемента: " + doubles1);
 
-        ArrayList<Integer> integers = new ArrayList<>(Arrays.asList(3, 4, 5, 5, 1));
-        System.out.println("Список целых чисел: " + integers);
+        ArrayList<Integer> integers2 = new ArrayList<>(Arrays.asList(3, 4, 5, 5, 1));
+        System.out.println("Список целых чисел: " + integers2);
 
-        System.out.println("Проверка, что в списке есть заданный элемент: " + integers.contains(1));
+        System.out.println("Проверка, что в списке есть заданный элемент: " + integers2.contains(1));
 
-        System.out.println("Массив из списка из метода toArray(): " + Arrays.toString(integers.toArray()));
+        System.out.println("Массив из списка из метода toArray(): " + Arrays.toString(integers2.toArray()));
 
-        Integer[] array = new Integer[8];
+        Integer[] array2 = new Integer[8];
 
-        array = integers.toArray(array);
-        System.out.println("Массив, полученный из списка: " + Arrays.toString(array));
+        array2 = integers2.toArray(array2);
+        System.out.println("Массив, полученный из списка: " + Arrays.toString(array2));
 
         doubles1.add(3, 8.0);
         System.out.println(doubles1);

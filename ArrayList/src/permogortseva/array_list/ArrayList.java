@@ -3,13 +3,14 @@ package permogortseva.array_list;
 import java.util.*;
 
 public class ArrayList<E> implements List<E> {
-    private final int initialCapacity = 10;
+    private static final int defaultCapacity = 10;
+
     private int size;
     private int modCount;
     private E[] elements;
 
     public ArrayList() {
-        elements = (E[]) new Object[initialCapacity];
+        elements = (E[]) new Object[defaultCapacity];
     }
 
     public ArrayList(int capacity) {
@@ -81,21 +82,15 @@ public class ArrayList<E> implements List<E> {
 
     private void increaseCapacity() {
         if (elements.length == 0) {
-            elements = Arrays.copyOf(elements, initialCapacity);
-
-            modCount++;
+            elements = Arrays.copyOf(elements, defaultCapacity);
+        } else {
+            elements = Arrays.copyOf(elements, elements.length * 2);
         }
-
-        elements = Arrays.copyOf(elements, elements.length * 2);
-
-        modCount++;
     }
 
     public void ensureCapacity(int size) {
         if (size > elements.length) {
             elements = Arrays.copyOf(elements, size);
-
-            modCount++;
         }
     }
 
@@ -142,23 +137,13 @@ public class ArrayList<E> implements List<E> {
     public E remove(int index) {
         checkIndex(index);
 
-        if (size == elements.length) {
-            increaseCapacity();
-        }
-
         E removedElement = elements[index];
 
-        if (index == size - 1) {
-            elements[index] = null;
-
-            size--;
-            modCount++;
-
-            return removedElement;
+        if (index < size - 1) {
+            System.arraycopy(elements, index + 1, elements, index, size - index - 1);
         }
 
-        elements[index] = null;
-        System.arraycopy(elements, index + 1, elements, index, size - index);
+        elements[size - 1] = null;
 
         size--;
         modCount++;
@@ -168,18 +153,16 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        int modCountBeforeAdding = modCount;
-
-        addAll(size, c);
-
-        return modCountBeforeAdding != modCount;
+        return addAll(size, c);
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         checkIndexForAdding(index);
 
-        int modCountBeforeAdding = modCount;
+        if (c.isEmpty()) {
+            return false;
+        }
 
         ensureCapacity(size + c.size());
 
@@ -189,14 +172,13 @@ public class ArrayList<E> implements List<E> {
 
         for (E e : c) {
             elements[index] = e;
-
             index++;
-
-            size++;
-            modCount++;
         }
 
-        return modCountBeforeAdding != modCount;
+        size += c.size();
+        modCount++;
+
+        return true;
     }
 
     @Override
@@ -205,7 +187,7 @@ public class ArrayList<E> implements List<E> {
             return;
         }
 
-        for (int i = size - 1; i >= 0; i--) {
+        for (int i = 0; i < size; i++) {
             elements[i] = null;
         }
 
@@ -238,10 +220,10 @@ public class ArrayList<E> implements List<E> {
     public E set(int index, E element) {
         checkIndex(index);
 
-        E previous = elements[index];
+        E oldValue = elements[index];
         elements[index] = element;
 
-        return previous;
+        return oldValue;
     }
 
     @Override
@@ -301,15 +283,16 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
-        int modCountBeforeRemoving = modCount;
+        boolean isChanged = false;
 
         for (int i = size - 1; i >= 0; i--) {
             if (c.contains(elements[i])) {
                 remove(i);
+                isChanged = true;
             }
         }
 
-        return modCountBeforeRemoving != modCount;
+        return isChanged;
     }
 
     @Override
@@ -346,8 +329,6 @@ public class ArrayList<E> implements List<E> {
     public void trimToSize() {
         if (size < elements.length) {
             elements = Arrays.copyOf(elements, size);
-
-            modCount++;
         }
     }
 
@@ -364,10 +345,6 @@ public class ArrayList<E> implements List<E> {
         for (int i = 0; i < size; i++) {
             sb.append(elements[i]);
             sb.append(", ");
-        }
-
-        if (!isEmpty()) {
-            sb.delete(sb.length() - 2, sb.length());
         }
 
         return sb.append(']').toString();
