@@ -1,8 +1,8 @@
-package permogortseva.persons.person;
+package permogortseva.lambdas.persons.person;
 
 public class Person {
-    private String name;
-    private int age;
+    private final String name;
+    private final int age;
 
     public Person(String name, int age) {
         if (age < 0) {

@@ -1,7 +1,7 @@
 package permogortseva.hash_table_main;
 
-import permogortseva.array_list.ArrayList;
 import permogortseva.hash_table.HashTable;
+import permogortseva.array_list.ArrayList;
 
 import java.util.Arrays;
 

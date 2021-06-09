@@ -1,4 +1,4 @@
-package permogortseva.part2;
+package permogortseva.lambdas.part2;
 
 import java.util.Scanner;
 import java.util.stream.DoubleStream;
