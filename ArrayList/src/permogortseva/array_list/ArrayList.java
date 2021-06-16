@@ -3,14 +3,15 @@ package permogortseva.array_list;
 import java.util.*;
 
 public class ArrayList<E> implements List<E> {
-    private static final int defaultCapacity = 10;
+    private static final int DEFAULT_CAPACITY = 10;
 
     private int size;
     private int modCount;
     private E[] elements;
 
     public ArrayList() {
-        elements = (E[]) new Object[defaultCapacity];
+        //noinspection unchecked
+        elements = (E[]) new Object[DEFAULT_CAPACITY];
     }
 
     public ArrayList(int capacity) {
@@ -18,6 +19,7 @@ public class ArrayList<E> implements List<E> {
             throw new IllegalArgumentException("Вместимость должна быть >= 0");
         }
 
+        //noinspection unchecked
         elements = (E[]) new Object[capacity];
     }
 
@@ -27,6 +29,7 @@ public class ArrayList<E> implements List<E> {
     }
 
     public ArrayList(List<E> list) {
+        //noinspection unchecked
         elements = (E[]) new Object[list.size()];
         size = list.size();
 
@@ -82,7 +85,8 @@ public class ArrayList<E> implements List<E> {
 
     private void increaseCapacity() {
         if (elements.length == 0) {
-            elements = Arrays.copyOf(elements, defaultCapacity);
+            //noinspection unchecked
+            elements = (E[]) new Object[DEFAULT_CAPACITY];
         } else {
             elements = Arrays.copyOf(elements, elements.length * 2);
         }
@@ -170,9 +174,11 @@ public class ArrayList<E> implements List<E> {
             System.arraycopy(elements, index, elements, index + c.size(), size - index);
         }
 
+        int i = index;
+
         for (E e : c) {
-            elements[index] = e;
-            index++;
+            elements[i] = e;
+            i++;
         }
 
         size += c.size();
@@ -220,10 +226,10 @@ public class ArrayList<E> implements List<E> {
     public E set(int index, E element) {
         checkIndex(index);
 
-        E oldValue = elements[index];
+        E oldElement = elements[index];
         elements[index] = element;
 
-        return oldValue;
+        return oldElement;
     }
 
     @Override
@@ -314,9 +320,11 @@ public class ArrayList<E> implements List<E> {
     @Override
     public <T> T[] toArray(T[] array) {
         if (array.length < size) {
+            //noinspection unchecked
             array = (T[]) Arrays.copyOf(elements, size, array.getClass());
         }
 
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(elements, 0, array, 0, size);
 
         if (array.length > size) {
@@ -357,7 +365,10 @@ public class ArrayList<E> implements List<E> {
         final int prime = 23;
         int hash = 1;
 
-        hash = prime * hash + Arrays.hashCode(elements);
+        // hash = prime * hash + Arrays.hashCode(elements);
+        for (E e : elements) {
+            hash = prime * hash + (e != null ? e.hashCode() : 0);
+        }
 
         return hash;
     }
@@ -372,8 +383,19 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
+        //noinspection unchecked
         ArrayList<E> list = (ArrayList<E>) o;
 
-        return Arrays.equals(elements, list.elements);
+        if (size != list.size) {
+            return false;
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (!Objects.equals(elements[i], list.elements[i])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

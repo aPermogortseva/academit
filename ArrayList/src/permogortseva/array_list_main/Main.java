@@ -6,8 +6,13 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        Integer[] array1 = {1, 7, 9};
+        Integer[] array1 = {1, null, 9};
         ArrayList<Integer> integers1 = new ArrayList<>(array1);
+
+        ArrayList<Integer> integers3 = new ArrayList<>(array1);
+
+        System.out.println(integers1.equals(integers3));
+
         System.out.println(integers1);
 
         ArrayList<Double> doubles1 = new ArrayList<>(5);
