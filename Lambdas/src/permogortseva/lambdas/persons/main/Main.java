@@ -26,10 +26,7 @@ public class Main {
 
         System.out.println(uniqueNamesList);
 
-        String uniqueNames = persons.stream()
-                .map(Person::getName)
-                .distinct()
-                .sorted()
+        String uniqueNames = uniqueNamesList.stream()
                 .collect(Collectors.joining(", ", "Имена: ", "."));
 
         System.out.println(uniqueNames);
