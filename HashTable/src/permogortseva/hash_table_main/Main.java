@@ -7,10 +7,9 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        HashTable<Integer> hashTable = new HashTable<>(5);
+        HashTable<Integer> hashTable = new HashTable<>(10);
 
         hashTable.add(null);
-        hashTable.add(4);
         hashTable.add(3);
         hashTable.add(2);
         hashTable.add(2);
