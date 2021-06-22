@@ -365,9 +365,8 @@ public class ArrayList<E> implements List<E> {
         final int prime = 23;
         int hash = 1;
 
-        // hash = prime * hash + Arrays.hashCode(elements);
-        for (E e : elements) {
-            hash = prime * hash + (e != null ? e.hashCode() : 0);
+        for (int i = 0; i < size; i++) {
+            hash = prime * hash + (elements[i] != null ? elements[i].hashCode() : 0);
         }
 
         return hash;
