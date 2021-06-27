@@ -72,7 +72,7 @@ public class HashTable<E> implements Collection<E> {
                 indexInList = -1;
             }
 
-            while (lists[currentArrayIndex] == null) {
+            while (lists[currentArrayIndex] == null || lists[currentArrayIndex].size() == 0) {
                 currentArrayIndex++;
             }
 
@@ -106,7 +106,12 @@ public class HashTable<E> implements Collection<E> {
     public <T> T[] toArray(T[] array) {
         if (array.length < size) {
             //noinspection unchecked
-            return (T[]) toArray();
+            T[] newArray = (T[]) toArray();
+
+            //noinspection unchecked
+            array = (T[]) Arrays.copyOf(newArray, size, array.getClass());
+
+            return array;
         }
 
         int i = 0;
@@ -190,7 +195,7 @@ public class HashTable<E> implements Collection<E> {
             return false;
         }
 
-        int sizeBeforeRemoving = size;
+        boolean isChanged = false;
 
         for (ArrayList<E> list : lists) {
             if (list != null) {
@@ -202,36 +207,40 @@ public class HashTable<E> implements Collection<E> {
 
                 if (difference > 0) {
                     size -= difference;
+
+                    isChanged = true;
                 }
             }
         }
 
-        if (size != sizeBeforeRemoving) {
+        if (isChanged) {
             modCount++;
         }
 
-        return sizeBeforeRemoving != size;
+        return isChanged;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
+        if (c.size() == 0) {
+            return false;
+        }
+
         int removedElementsCount = 0;
         boolean isChanged = false;
 
         for (int i = 0; i < lists.length; i++) {
-            if (lists[i] == null) {
-                continue;
-            }
+            if (lists[i] != null) {
+                int listSizeBeforeRetaining = lists[i].size();
 
-            int listSizeBeforeRetaining = lists[i].size();
+                if (lists[i].retainAll(c)) {
+                    removedElementsCount += listSizeBeforeRetaining - lists[i].size();
+                    isChanged = true;
+                }
 
-            if (lists[i].retainAll(c)) {
-                removedElementsCount += listSizeBeforeRetaining - lists[i].size();
-                isChanged = true;
-            }
-
-            if (lists[i].size() == 0) {
-                lists[i] = null;
+                if (lists[i].size() == 0) {
+                    lists[i] = null;
+                }
             }
         }
 
