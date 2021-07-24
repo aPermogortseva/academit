@@ -5,16 +5,26 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(new FileInputStream("input.csv"));
-             PrintWriter writer = new PrintWriter("output.html")) {
+        try (Scanner scanner = new Scanner(new FileInputStream(args[0]));
+             PrintWriter writer = new PrintWriter(args[1])) {
 
-            writer.write("<table>\n");
+            writer.write("<!DOCTYPE html>" + System.lineSeparator() +
+                    "<html>" + System.lineSeparator() +
+                    "   <head>" + System.lineSeparator() +
+                    "      <meta charset=\"utf-8\" />" + System.lineSeparator() +
+                    "   </head>" + System.lineSeparator() +
+                    "   <body>" + System.lineSeparator());
+
+            writer.write("<table>" + System.lineSeparator());
 
             while (scanner.hasNextLine()) {
-                writer.write("<tr>\n");
-                writer.write("<td>\n");
+                writer.write("<tr>" + System.lineSeparator());
+                writer.write("<td>" + System.lineSeparator());
 
                 StringBuilder currentRow = new StringBuilder(scanner.nextLine());
+                while (currentRow.length() == 0 && scanner.hasNextLine()) {
+                    currentRow = new StringBuilder(scanner.nextLine());
+                }
 
                 int doubleQuotesCount = 0;
 
@@ -27,18 +37,22 @@ public class Main {
                     }
 
                     if (previousCharacter != '"' && previousCharacter != ',') {
-                        writer.write(previousCharacter);
+                        if (previousCharacter == '<') {
+                            writer.write("&lt");
+                        } else if (previousCharacter == '>') {
+                            writer.write("&gt");
+                        } else if (previousCharacter == '&') {
+                            writer.write("&amp");
+                        } else {
+                            writer.write(previousCharacter);
+                        }
                     } else if (currentCharacter == (char) 0) {
                         writer.write("<br/>");
                     } else if (previousCharacter == ',' && doubleQuotesCount % 2 == 0) {
-                        writer.write("\n</td>\n");
-                        writer.write("<td>\n");
-
-                        if (currentCharacter == '"') {
-                            doubleQuotesCount++;
-                        }
-
-                        i++;
+                        writer.write(System.lineSeparator() + "</td>" + System.lineSeparator());
+                        writer.write("<td>" + System.lineSeparator());
+                    } else if (previousCharacter == '"' && currentCharacter == '"' && doubleQuotesCount % 2 != 0) {
+                        continue;
                     } else if (previousCharacter == '"' && currentCharacter == '"') {
                         writer.write(previousCharacter);
 
@@ -52,23 +66,29 @@ public class Main {
                     if (i == currentRow.length() - 1 && currentRow.charAt(i) != ',' && currentRow.charAt(i) != '"') {
                         writer.write(currentRow.charAt(i));
                     } else if (i == currentRow.length() - 1 && currentRow.charAt(i) == ',') {
-                        writer.write("\n</td>");
-                        writer.write("\n<td>");
+                        writer.write(System.lineSeparator() + "</td>");
+                        writer.write(System.lineSeparator() + "<td>");
+                    } else if (i == currentRow.length() - 1 && currentRow.charAt(i) == '"' && doubleQuotesCount % 2 != 0) {
+                        doubleQuotesCount++;
                     }
+
                     if (i == currentRow.length() - 1 && doubleQuotesCount % 2 != 0 && scanner.hasNextLine()) {
-                        writer.write("<br/>\n");
+                        writer.write("<br/>" + System.lineSeparator());
                         currentRow.append(scanner.nextLine());
                         i++;
                     }
                 }
 
-                writer.write("\n</td>");
-                writer.write("\n</tr>\n");
+                writer.write(System.lineSeparator() + "</td>");
+                writer.write(System.lineSeparator() + "</tr>" + System.lineSeparator());
             }
 
-            writer.write("</table>");
+            writer.write("</table>" + System.lineSeparator());
+
+            writer.write(" </body>" + System.lineSeparator() +
+                    "</html>");
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Файл " + args[0] + " не найден.");
         }
     }
 }
