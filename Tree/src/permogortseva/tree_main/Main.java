@@ -19,7 +19,7 @@ public class Main {
 
         System.out.println("Заданное число найдено: " + tree.find(2));
 
-        System.out.println("Число найдено и удалёно: " + tree.remove(18));
+        System.out.println("Число найдено и удалёно: " + tree.remove(10));
 
         System.out.println("Обход дерева в ширину:");
         tree.traverseBreadthFirst(System.out::println);

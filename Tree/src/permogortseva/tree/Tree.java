@@ -4,13 +4,12 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class Tree<T> {
-    private final Comparator<? super T> comparator;
+    private Comparator<? super T> comparator;
 
     private TreeNode<T> root;
     private int size = 0;
 
     public Tree() {
-        comparator = null;
     }
 
     public Tree(Comparator<? super T> comparator, T rootData) {
@@ -20,11 +19,25 @@ public class Tree<T> {
         size++;
     }
 
+    public Tree(Comparator<? super T> comparator) {
+        this.comparator = comparator;
+
+        size++;
+    }
+
     public Tree(T rootData) {
-        comparator = null;
         root = new TreeNode<>(rootData);
 
         size++;
+    }
+
+    private int compareData(T data1, T data2) {
+        if (comparator == null) {
+            //noinspection unchecked
+            Comparable<? super T> comparableData = (Comparable<? super T>) data1;
+
+            return Integer.compare(comparableData.compareTo(data2), 0);
+        } else return Integer.compare(comparator.compare(data1, data2), 0);
     }
 
     public void add(T data) {
@@ -38,41 +51,20 @@ public class Tree<T> {
         TreeNode<T> current = root;
 
         while (true) {
-            if (comparator == null) {
-                //noinspection unchecked
-                Comparable<? super T> comparableData = (Comparable<? super T>) data;
-
-                if (comparableData.compareTo(current.getData()) < 0) {
-                    if (current.getLeftChild() != null) {
-                        current = current.getLeftChild();
-                        continue;
-                    }
-
-                    current.setLeftChild(new TreeNode<>(data));
-                } else {
-                    if (current.getRightChild() != null) {
-                        current = current.getRightChild();
-                        continue;
-                    }
-
-                    current.setRightChild(new TreeNode<>(data));
+            if (compareData(data, current.getData()) == -1) {
+                if (current.getLeftChild() != null) {
+                    current = current.getLeftChild();
+                    continue;
                 }
+
+                current.setLeftChild(new TreeNode<>(data));
             } else {
-                if (comparator.compare(current.getData(), data) > 0) {
-                    if (current.getLeftChild() != null) {
-                        current = current.getLeftChild();
-                        continue;
-                    }
-
-                    current.setLeftChild(new TreeNode<>(data));
-                } else {
-                    if (current.getRightChild() != null) {
-                        current = current.getRightChild();
-                        continue;
-                    }
-
-                    current.setRightChild(new TreeNode<>(data));
+                if (current.getRightChild() != null) {
+                    current = current.getRightChild();
+                    continue;
                 }
+
+                current.setRightChild(new TreeNode<>(data));
             }
 
             size++;
@@ -99,47 +91,22 @@ public class Tree<T> {
         TreeNode<T> current = root;
         TreeNode<T> parent = current;
 
-        if (comparator == null) {
-            //noinspection unchecked
-            Comparable<? super T> comparableData = (Comparable<? super T>) data;
+        while (true) {
+            int dataComparing = compareData(data, current.getData());
 
-            while (true) {
-                if (comparableData.compareTo(current.getData()) == 0) {
-                    return parent;
-                }
-
-                if (comparableData.compareTo(current.getData()) < 0) {
-                    if (current.getLeftChild() != null) {
-                        parent = current;
-                        current = current.getLeftChild();
-                    }
-                } else {
-                    if (current.getRightChild() != null) {
-                        parent = current;
-                        current = current.getRightChild();
-                    }
-                }
-            }
-        } else {
-            if (comparator.compare(current.getData(), data) == 0) {
-                return current;
+            if (dataComparing == 0) {
+                return parent;
             }
 
-            while (true) {
-                if (comparator.compare(current.getData(), data) == 0) {
-                    return parent;
+            if (dataComparing == -1) {
+                if (current.getLeftChild() != null) {
+                    parent = current;
+                    current = current.getLeftChild();
                 }
-
-                if (comparator.compare(current.getData(), data) > 0) {
-                    if (current.getLeftChild() != null) {
-                        parent = current;
-                        current = current.getLeftChild();
-                    }
-                } else {
-                    if (current.getRightChild() != null) {
-                        parent = current;
-                        current = current.getRightChild();
-                    }
+            } else {
+                if (current.getRightChild() != null) {
+                    parent = current;
+                    current = current.getRightChild();
                 }
             }
         }
@@ -148,48 +115,26 @@ public class Tree<T> {
     private TreeNode<T> getNode(T data) {
         TreeNode<T> current = root;
 
-        if (comparator == null) {
-            //noinspection unchecked
-            Comparable<? super T> comparableData = (Comparable<? super T>) data;
+        while (true) {
+            int dataComparing = compareData(data, current.getData());
 
-            while (true) {
-                if (comparableData.compareTo(current.getData()) == 0) {
-                    return current;
-                }
-
-                if (comparableData.compareTo(current.getData()) < 0) {
-                    if (current.getLeftChild() != null) {
-                        current = current.getLeftChild();
-                    } else {
-                        return null;
-                    }
-                } else {
-                    if (current.getRightChild() != null) {
-                        current = current.getRightChild();
-                    } else {
-                        return null;
-                    }
-                }
+            if (dataComparing == 0) {
+                return current;
             }
-        } else {
-            while (true) {
-                if (comparator.compare(current.getData(), data) == 0) {
-                    return current;
+
+            if (dataComparing == -1) {
+                if (current.getLeftChild() == null) {
+                    return null;
+
                 }
 
-                if (comparator.compare(current.getData(), data) > 0) {
-                    if (current.getLeftChild() != null) {
-                        current = current.getLeftChild();
-                    } else {
-                        return null;
-                    }
-                } else {
-                    if (current.getRightChild() != null) {
-                        current = current.getRightChild();
-                    } else {
-                        return null;
-                    }
+                current = current.getLeftChild();
+            } else {
+                if (current.getRightChild() == null) {
+                    return null;
                 }
+
+                current = current.getRightChild();
             }
         }
     }
@@ -206,108 +151,21 @@ public class Tree<T> {
         TreeNode<T> current = root;
         TreeNode<T> parent;
 
-        if (comparator == null) {
-            //noinspection unchecked
-            Comparable<? super T> comparableCurrentData = (Comparable<? super T>) current.getData();
-
-            if (size == 1) {
-                if (comparableCurrentData.compareTo(data) == 0) {
-                    root = null;
-                    size--;
-
-                    return true;
-                }
-
-                return false;
-            }
-
-            current = getNode(data);
-
-            if (current != null) {
-                //noinspection unchecked
-                comparableCurrentData = (Comparable<? super T>) current.getData();
-
-                if (comparableCurrentData.compareTo(root.getData()) == 0) {
-                    if (root.getRightChild() == null) {
-                        root = root.getLeftChild();
-                    } else {
-                        root = root.getRightChild();
-                        root.setLeftChild(current.getLeftChild());
-                    }
-
-                    size--;
-                    return true;
-                }
-
-                parent = getNodeParent(current);
-
-                if (current.getRightChild() == null && current.getLeftChild() == null) {
-                    if (comparableCurrentData.compareTo(parent.getData()) < 0) {
-                        parent.setLeftChild(null);
-                    } else {
-                        parent.setRightChild(null);
-                    }
-                } else if (current.getLeftChild() != null && current.getRightChild() == null) {
-                    if (comparableCurrentData.compareTo(parent.getData()) < 0) {
-                        parent.setLeftChild(current.getLeftChild());
-                    } else {
-                        parent.setRightChild(current.getLeftChild());
-                    }
-                } else if (current.getLeftChild() == null && current.getRightChild() != null) {
-                    if (comparableCurrentData.compareTo(parent.getData()) < 0) {
-                        parent.setLeftChild(current.getRightChild());
-                    } else {
-                        parent.setRightChild(current.getRightChild());
-                    }
-                } else if (current.getRightChild() != null) {
-                    TreeNode<T> minNode = current.getRightChild();
-                    TreeNode<T> minNodeParent = current;
-
-                    if (minNode.getLeftChild() == null) {
-                        if (comparableCurrentData.compareTo(parent.getData()) < 0) {
-                            parent.setLeftChild(minNode);
-                        } else {
-                            parent.setRightChild(minNode);
-                        }
-
-                        minNode.setLeftChild(current.getLeftChild());
-                    } else {
-                        while (minNode.getLeftChild() != null) {
-                            minNodeParent = minNode;
-                            minNode = minNode.getLeftChild();
-                        }
-
-                        minNodeParent.setLeftChild(minNode.getRightChild());
-
-                        minNode.setLeftChild(current.getLeftChild());
-                        minNode.setRightChild(current.getRightChild());
-
-                        if (comparableCurrentData.compareTo(parent.getData()) < 0) {
-                            parent.setLeftChild(minNode);
-                        } else {
-                            parent.setRightChild(minNode);
-                        }
-                    }
-                }
-
+        if (size == 1) {
+            if (compareData(data, current.getData()) == 0) {
+                root = null;
                 size--;
 
                 return true;
             }
 
             return false;
-        } else {
-            if (size == 1) {
-                if (comparator.compare(current.getData(), data) == 0) {
-                    root = null;
-                    size--;
+        }
 
-                    return true;
-                }
-                return false;
-            }
+        current = getNode(data);
 
-            if (comparator.compare(root.getData(), data) == 0) {
+        if (current != null) {
+            if (compareData(current.getData(), root.getData()) == 0) {
                 if (root.getRightChild() == null) {
                     root = root.getLeftChild();
                 } else {
@@ -319,66 +177,65 @@ public class Tree<T> {
                 return true;
             }
 
-            current = getNode(data);
+            parent = getNodeParent(current);
 
-            if (current != null) {
-                parent = getNodeParent(current);
+            int dataComparing = compareData(current.getData(), parent.getData());
 
-                if (current.getRightChild() == null && current.getLeftChild() == null) {
-                    if (comparator.compare(parent.getData(), current.getData()) > 0) {
-                        parent.setLeftChild(null);
+            if (current.getRightChild() == null && current.getLeftChild() == null) {
+                if (dataComparing == -1) {
+                    parent.setLeftChild(null);
+                } else {
+                    parent.setRightChild(null);
+                }
+            } else if (current.getLeftChild() != null && current.getRightChild() == null) {
+                if (dataComparing == -1) {
+                    parent.setLeftChild(current.getLeftChild());
+                } else {
+                    parent.setRightChild(current.getLeftChild());
+                }
+            } else if (current.getLeftChild() == null && current.getRightChild() != null) {
+                if (dataComparing == -1) {
+                    parent.setLeftChild(current.getRightChild());
+                } else {
+                    parent.setRightChild(current.getRightChild());
+                }
+            } else if (current.getRightChild() != null) {
+                TreeNode<T> minNode = current.getRightChild();
+                TreeNode<T> minNodeParent = current;
+
+                if (minNode.getLeftChild() == null) {
+                    if (dataComparing == -1) {
+                        parent.setLeftChild(minNode);
                     } else {
-                        parent.setRightChild(null);
+                        parent.setRightChild(minNode);
                     }
-                } else if (current.getLeftChild() != null && current.getRightChild() == null) {
-                    if (comparator.compare(parent.getData(), current.getData()) > 0) {
-                        parent.setLeftChild(current.getLeftChild());
-                    } else {
-                        parent.setRightChild(current.getLeftChild());
+
+                    minNode.setLeftChild(current.getLeftChild());
+                } else {
+                    while (minNode.getLeftChild() != null) {
+                        minNodeParent = minNode;
+                        minNode = minNode.getLeftChild();
                     }
-                } else if (current.getLeftChild() == null && current.getRightChild() != null) {
-                    if (comparator.compare(parent.getData(), current.getData()) > 0) {
-                        parent.setLeftChild(current.getRightChild());
+
+                    minNodeParent.setLeftChild(minNode.getRightChild());
+
+                    minNode.setLeftChild(current.getLeftChild());
+                    minNode.setRightChild(current.getRightChild());
+
+                    if (dataComparing == -1) {
+                        parent.setLeftChild(minNode);
                     } else {
-                        parent.setRightChild(current.getRightChild());
-                    }
-                } else if (current.getRightChild() != null) {
-                    TreeNode<T> minNode = current.getRightChild();
-                    TreeNode<T> minNodeParent = current;
-
-                    if (minNode.getLeftChild() == null) {
-                        if (comparator.compare(current.getData(), parent.getData()) < 0) {
-                            parent.setLeftChild(minNode);
-                        } else {
-                            parent.setRightChild(minNode);
-                        }
-
-                        minNode.setLeftChild(current.getLeftChild());
-                    } else {
-                        while (minNode.getLeftChild() != null) {
-                            minNodeParent = minNode;
-                            minNode = minNode.getLeftChild();
-                        }
-
-                        minNodeParent.setLeftChild(minNode.getRightChild());
-
-                        minNode.setLeftChild(current.getLeftChild());
-                        minNode.setRightChild(current.getRightChild());
-
-                        if (comparator.compare(current.getData(), parent.getData()) < 0) {
-                            parent.setLeftChild(minNode);
-                        } else {
-                            parent.setRightChild(minNode);
-                        }
+                        parent.setRightChild(minNode);
                     }
                 }
-
-                size--;
-
-                return true;
             }
-            return false;
+
+            size--;
+
+            return true;
         }
+
+        return false;
     }
 
     public void traverseBreadthFirst(Consumer<T> consumer) {
@@ -411,7 +268,7 @@ public class Tree<T> {
 
         Deque<TreeNode<T>> deque = new LinkedList<>();
 
-        deque.addFirst(root);
+        deque.addLast(root);
 
         while (!deque.isEmpty()) {
             TreeNode<T> current = deque.removeLast();
