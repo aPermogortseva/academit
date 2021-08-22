@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Main1" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="permogortseva.csv.Main" />
+    <module name="CSV" />
+    <option name="PROGRAM_PARAMETERS" value="input.csv output.html" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="permogortseva.csv.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
